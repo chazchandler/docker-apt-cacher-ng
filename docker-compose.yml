@@ -2,8 +2,9 @@ version: '2'
 
 services:
   apt-cacher-ng:
-    restart: always
+    build: .
     image: sameersbn/apt-cacher-ng:latest
+    restart: unless-stopped
     ports:
     - "3142:3142"
     volumes:
