@@ -1,18 +1,18 @@
-FROM armv7/armhf-ubuntu:16.04
+FROM chaznet/armhf-ubuntu:18.04
 MAINTAINER sameer@damagehead.com, chaz
 
-ENV APT_CACHER_NG_VERSION=0.9.1 \
+ENV APT_CACHER_NG_VERSION=3.1 \
     APT_CACHER_NG_CACHE_DIR=/var/cache/apt-cacher-ng \
     APT_CACHER_NG_LOG_DIR=/var/log/apt-cacher-ng \
     APT_CACHER_NG_USER=apt-cacher-ng
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y wget apt-cacher-ng=${APT_CACHER_NG_VERSION}* \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y wget apt-cacher-ng=${APT_CACHER_NG_VERSION}* gnupg2 \
  && sed 's/# ForeGround: 0/ForeGround: 1/' -i /etc/apt-cacher-ng/acng.conf \
  && sed 's/# PassThroughPattern:.*this would allow.*/PassThroughPattern: .* #/' -i /etc/apt-cacher-ng/acng.conf \
  && rm -rf /var/lib/apt/lists/*
 
-ENV TINI_VERSION v0.16.1
+ENV TINI_VERSION v0.18.0
 
 RUN cd /tmp && \
   gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 && \
